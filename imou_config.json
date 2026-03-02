@@ -1,0 +1,42 @@
+{
+  "app_id": "lcb51d1f091d174f99",
+  "app_secret": "74a04a5aa148474ab7661829aaae23",
+  "cameras": [
+    {
+      "device_id": "Ban Công",
+      "name": "Ban Công",
+      "firmware": "N/A",
+      "status": "online",
+      "sensors": [],
+      "switches": [],
+      "room": "264A/A - Tầng 1"
+    },
+    {
+      "device_id": "Trong Nhà",
+      "name": "Trong Nhà",
+      "firmware": "N/A",
+      "status": "online",
+      "sensors": [],
+      "switches": [],
+      "room": "264A/6 - Trệt"
+    },
+    {
+      "device_id": "Ngoài Cửa",
+      "name": "Ngoài cửa",
+      "firmware": "N/A",
+      "status": "online",
+      "sensors": [],
+      "switches": [],
+      "room": "264A/6 - Sân"
+    },
+    {
+      "device_id": "Bãi Xe",
+      "name": "Bãi Xe",
+      "firmware": "N/A",
+      "status": "online",
+      "sensors": [],
+      "switches": [],
+      "room": "264A/6 - Sân"
+    }
+  ]
+}
