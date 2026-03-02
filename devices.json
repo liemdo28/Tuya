@@ -1,0 +1,876 @@
+[
+  {
+    "id": "ebdff243fbe38f9a26kwo1",
+    "name": "Cửa Rào",
+    "ip": "",
+    "local_key": "&Z)5O`w*wXo&[d1:",
+    "type": "sensor",
+    "version": "3.3",
+    "room": "264A/6 - Sân",
+    "icon": "switch",
+    "category": "jtmspro",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "ebc5cdc2f0c522fcf6clqf",
+    "name": "Cầu Thang",
+    "ip": "192.168.0.227",
+    "local_key": "&M#sFm4y+1aw>D!v",
+    "type": "bulb",
+    "version": "3.4",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb7322c856d1ca05a3ydvk",
+    "name": "Camera Ngoài",
+    "ip": "192.168.0.243",
+    "local_key": "MjA;T<@68PC<XH'x",
+    "type": "switch",
+    "version": "3.4",
+    "room": "264A/6 - Sân",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb7e9aae0ac6063a61xyfv",
+    "name": "Smart IR - Trệt",
+    "ip": "192.168.0.66",
+    "local_key": "v;IRT^5rOx)4z##1",
+    "type": "switch",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "wnykq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb8ce6cc8e9ab1a057bja3",
+    "name": "Wc Mi",
+    "ip": "192.168.0.96",
+    "local_key": "'vAJaW8;~R*VVY(z",
+    "type": "switch",
+    "version": "3.4",
+    "room": "264A/6 - Sân",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb7dde529ba1d41df261ev",
+    "name": "Bếp",
+    "ip": "192.168.0.62",
+    "local_key": "RIdb0^(6MaWA`P@Y",
+    "type": "bulb",
+    "version": "3.4",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb2d7fcafd3d2f0f05axou",
+    "name": "Food Mi - pet feeder",
+    "ip": "192.168.0.97",
+    "local_key": "Sk_o$lsg68&7Qau0",
+    "type": "switch",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "cwwsq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "ebf3fcb2df2e5dff80u6vk",
+    "name": "Zigbee Gateway Hub",
+    "ip": "",
+    "local_key": "7y*=R9:PPJ#qDoms",
+    "type": "switch",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "wg2",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "18334632d8f15bfe6af5",
+    "name": "Ổ cắm TV LG",
+    "ip": "",
+    "local_key": "7J5[-:elA-(xa']Q",
+    "type": "switch",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "cz",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb70f139609de798d4ozfi",
+    "name": "Camera Trong Sân",
+    "ip": "",
+    "local_key": "FQN4<s;;OxNeYIoi",
+    "type": "switch",
+    "version": "3.3",
+    "room": "264A/6 - Sân",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb686ff3d457b87d40r7is",
+    "name": "Multifunction alarm",
+    "ip": "",
+    "local_key": "WDOtt2f|ZrSy'B#0",
+    "type": "sensor",
+    "version": "3.3",
+    "room": "264A/6 - Sân",
+    "icon": "switch",
+    "category": "mal",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "ebf46dd2e25053c8a8r5av",
+    "name": "Smart IR - Lau 1",
+    "ip": "",
+    "local_key": "@'MInW4iWT`>JV]G",
+    "type": "switch",
+    "version": "3.3",
+    "room": "264A/6 - Tầng 1",
+    "icon": "switch",
+    "category": "wnykq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eba2e1ca0c3fc968c3o1ij",
+    "name": "Đèn Trệt",
+    "ip": "",
+    "local_key": "m==U7PLQTC@r88SV",
+    "type": "bulb",
+    "version": "3.3",
+    "room": "264A/6 - Sân",
+    "icon": "switch",
+    "category": "kg",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb0c08f6c752724006wym0",
+    "name": "Cầu thang 1",
+    "ip": "",
+    "local_key": "P`MZnO}L>>9n4J>n",
+    "type": "bulb",
+    "version": "3.3",
+    "room": "264A/6 - Tầng 1",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "ebfebdilhijwjc2w",
+    "name": "Cửa Cổng",
+    "ip": "",
+    "local_key": "7y*=R9:PPJ#qDoms",
+    "type": "sensor",
+    "version": "3.3",
+    "room": "52 - Nhà Dưới",
+    "icon": "switch",
+    "category": "jtmspro",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "52"
+  },
+  {
+    "id": "ebad09kcqps3c1yh",
+    "name": "Cửa Chính",
+    "ip": "",
+    "local_key": "7y*=R9:PPJ#qDoms",
+    "type": "sensor",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "jtmspro",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb408b787d6b000a543w2k",
+    "name": "Cửa Ban Công",
+    "ip": "",
+    "local_key": "7y*=R9:PPJ#qDoms",
+    "type": "sensor",
+    "version": "3.3",
+    "room": "264A/6 - Tầng 1",
+    "icon": "sensor",
+    "category": "mcs",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Trạng thái",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "ebb033769f315c05debcxm",
+    "name": "Cửa Chính",
+    "ip": "",
+    "local_key": "7y*=R9:PPJ#qDoms",
+    "type": "sensor",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "sensor",
+    "category": "mcs",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Trạng thái",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb6d2e642f9d0aaaa1ekiu",
+    "name": "Cửa Cổng",
+    "ip": "",
+    "local_key": "7y*=R9:PPJ#qDoms",
+    "type": "sensor",
+    "version": "3.3",
+    "room": "264A/6 - Sân",
+    "icon": "sensor",
+    "category": "mcs",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Trạng thái",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "ebec428acf8713e484kvpf",
+    "name": "Close All Button",
+    "ip": "",
+    "local_key": "7y*=R9:PPJ#qDoms",
+    "type": "switch",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "wxkg",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "ebbd6964fed6ef7be45ven",
+    "name": "Cửa Hông",
+    "ip": "",
+    "local_key": "0Uf>3WaB:y63w(=_",
+    "type": "sensor",
+    "version": "3.3",
+    "room": "52 - Nhà Dưới",
+    "icon": "sensor",
+    "category": "mcs",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Trạng thái",
+        "type": "bool"
+      }
+    ],
+    "house": "52"
+  },
+  {
+    "id": "ebeb0cdd242016ac607xgm",
+    "name": "Công Tắc Giữa Nhà",
+    "ip": "",
+    "local_key": "&g#53!2`yuN1_nLG",
+    "type": "bulb",
+    "version": "3.3",
+    "room": "52 - Nhà Dưới",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "52"
+  },
+  {
+    "id": "ebabed1ed1783d5240ztva",
+    "name": "Wifi",
+    "ip": "",
+    "local_key": "-.`yPEywaE:kjrSv",
+    "type": "switch",
+    "version": "3.3",
+    "room": "124 - Trệt",
+    "icon": "switch",
+    "category": "cz",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "124"
+  },
+  {
+    "id": "eba7efa9a08c06b08blxka",
+    "name": "TV 2",
+    "ip": "",
+    "local_key": "v;IRT^5rOx)4z##1",
+    "type": "switch",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "infrared_tv",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "ebfd934950130c7bf6inzp",
+    "name": "DIY",
+    "ip": "",
+    "local_key": "v;IRT^5rOx)4z##1",
+    "type": "fan",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "qt",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb6662ebec6b713dcesac8",
+    "name": "Asanzo",
+    "ip": "",
+    "local_key": "v;IRT^5rOx)4z##1",
+    "type": "fan",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "infrared_ac",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "ebabe8bb28236c19f9glyz",
+    "name": "Air Conditioning",
+    "ip": "",
+    "local_key": "@'MInW4iWT`>JV]G",
+    "type": "fan",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "infrared_ac",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "ebb84551b5e9fde93eiced",
+    "name": "Purifier1",
+    "ip": "",
+    "local_key": "@'MInW4iWT`>JV]G",
+    "type": "fan",
+    "version": "3.3",
+    "room": "264A/6 - Tầng 1",
+    "icon": "switch",
+    "category": "infrared_airpurifier",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb9d4d0ca8eb80a2b5i8mv",
+    "name": "TV",
+    "ip": "",
+    "local_key": "@'MInW4iWT`>JV]G",
+    "type": "switch",
+    "version": "3.3",
+    "room": "264A/6 - Tầng 1",
+    "icon": "switch",
+    "category": "infrared_tv",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb10d2709f4683a8c9a8jp",
+    "name": "Giữa nhà",
+    "ip": "",
+    "local_key": "#RmSp4:2suku;d.R",
+    "type": "bulb",
+    "version": "3.3",
+    "room": "52 - Nhà Dưới",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "52"
+  },
+  {
+    "id": "ebd77df270b791fa265lxj",
+    "name": "Cửa Hông",
+    "ip": "",
+    "local_key": "<XJN~ZtBF9T(1gh/",
+    "type": "bulb",
+    "version": "3.3",
+    "room": "52 - Nhà Dưới",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "52"
+  },
+  {
+    "id": "ebf9a1ff7e19e90805xiaa",
+    "name": "Lầu",
+    "ip": "",
+    "local_key": "j!?TjKp&ymsSYPwo",
+    "type": "bulb",
+    "version": "3.3",
+    "room": "52 - Nhà Dưới",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "52"
+  },
+  {
+    "id": "eb2b6cfec864a1f905bbbz",
+    "name": "Bluetooth Gateway",
+    "ip": "",
+    "local_key": "B+o2V~Fx1*.?zB^>",
+    "type": "switch",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "cz",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb163bbemcweknel",
+    "name": "Cửa Trong",
+    "ip": "",
+    "local_key": "B+o2V~Fx1*.?zB^>",
+    "type": "sensor",
+    "version": "3.3",
+    "room": "52 - Nhà Dưới",
+    "icon": "switch",
+    "category": "jtmspro",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "52"
+  },
+  {
+    "id": "eb516288bc5e890abap9yt",
+    "name": "Giường",
+    "ip": "",
+    "local_key": "naoH;c[|O>{QPy{x",
+    "type": "bulb",
+    "version": "3.3",
+    "room": "52 - Nhà Dưới",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "52"
+  },
+  {
+    "id": "eb8b2740371370f4e6cc6g",
+    "name": "Nhà Gỗ 1",
+    "ip": "",
+    "local_key": "waDwRN|v.g{vujAC",
+    "type": "bulb",
+    "version": "3.3",
+    "room": "52 - Nhà Gỗ",
+    "icon": "switch",
+    "category": "cz",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "52"
+  },
+  {
+    "id": "eb7676eb8b9dba7d9c7huc",
+    "name": "Củ Sạc",
+    "ip": "",
+    "local_key": "plKORe]qSLDX?G3>",
+    "type": "switch",
+    "version": "3.3",
+    "room": "124 - Trệt",
+    "icon": "switch",
+    "category": "cz",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "124"
+  },
+  {
+    "id": "ebf90e3d28ed8efd4ddzpm",
+    "name": "Nhà Gỗ 3",
+    "ip": "",
+    "local_key": "emsk]Z]@J@<)l76p",
+    "type": "bulb",
+    "version": "3.3",
+    "room": "52 - Nhà Gỗ",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "52"
+  },
+  {
+    "id": "eb9de6f76836ebe897xbhm",
+    "name": "Air",
+    "ip": "",
+    "local_key": "hj;*:xUmqYTc|7N~",
+    "type": "fan",
+    "version": "3.3",
+    "room": "264A/7 - Tầng 1",
+    "icon": "switch",
+    "category": "infrared_ac",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/7"
+  },
+  {
+    "id": "ebd5bab2552a21154elhfj",
+    "name": "Smart IR",
+    "ip": "",
+    "local_key": "hj;*:xUmqYTc|7N~",
+    "type": "switch",
+    "version": "3.3",
+    "room": "124 - Trệt",
+    "icon": "switch",
+    "category": "wnykq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "124"
+  },
+  {
+    "id": "eb0a7b14c41f7d728eutg6",
+    "name": "Casper",
+    "ip": "",
+    "local_key": "hj;*:xUmqYTc|7N~",
+    "type": "fan",
+    "version": "3.3",
+    "room": "124 - Trệt",
+    "icon": "switch",
+    "category": "infrared_ac",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "124"
+  },
+  {
+    "id": "ebfdbawxqjdmpqhj",
+    "name": "Temp & Humidity Sensor 2",
+    "ip": "",
+    "local_key": "7y*=R9:PPJ#qDoms",
+    "type": "sensor",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "sensor",
+    "category": "wsdcg",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Trạng thái",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eba4b5cb52b2f29608hamg",
+    "name": "Cửa Nhà Gỗ",
+    "ip": "",
+    "local_key": "jKErcZm/IhJgcitR",
+    "type": "sensor",
+    "version": "3.3",
+    "room": "52 - Nhà Gỗ",
+    "icon": "sensor",
+    "category": "mcs",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Trạng thái",
+        "type": "bool"
+      }
+    ],
+    "house": "52"
+  },
+  {
+    "id": "ebbf911aa72c65eab2feaa",
+    "name": "Nhà Xưởng",
+    "ip": "",
+    "local_key": "mvWY>-.xZ~t?)+@9",
+    "type": "sensor",
+    "version": "3.3",
+    "room": "52 - Nhà Xưởng",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "52"
+  },
+  {
+    "id": "eb32dfcdb940648d54wvgu",
+    "name": "Bluetooth Gateway",
+    "ip": "",
+    "local_key": "{ukUA`Si`#185nx;",
+    "type": "switch",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "cz",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  },
+  {
+    "id": "eb7b773bff8f58ced7lpfd",
+    "name": "LED TV",
+    "ip": "",
+    "local_key": ".dGx@D2Y~{Xv5?X<",
+    "type": "switch",
+    "version": "3.3",
+    "room": "264A/6 - Trệt",
+    "icon": "switch",
+    "category": "tdq",
+    "dps_config": [
+      {
+        "dp": 1,
+        "name": "Công tắc",
+        "type": "bool"
+      }
+    ],
+    "house": "264A/6"
+  }
+]

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏠 Tuya Smart Home v2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2035;
+            --bg-card-hover: #1f2842;
+            --accent: #00d4aa;
+            --accent-glow: rgba(0, 212, 170, 0.15);
+            --accent-dim: rgba(0, 212, 170, 0.6);
+            --danger: #ff5c72;
+            --warning: #ffb84d;
+            --info: #5ca0ff;
+            --cloud: #a78bfa;
+            --text-primary: #e8ecf4;
+            --text-secondary: #8892a8;
+            --text-muted: #5a6478;
+            --border: rgba(255,255,255,0.06);
+            --border-accent: rgba(0, 212, 170, 0.25);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.3);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Be Vietnam Pro', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(0, 212, 170, 0.04) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(92, 160, 255, 0.03) 0%, transparent 50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .app-container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+        .header { display: flex; align-items: center; justify-content: space-between; padding: 24px 0; margin-bottom: 12px; flex-wrap: wrap; gap: 16px; }
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .logo { width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent), #00b894); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 20px rgba(0, 212, 170, 0.3); }
+        .header-title h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+        .header-title p { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+        .header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+        .btn { padding: 10px 20px; border: none; border-radius: var(--radius-sm); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+        .btn-primary { background: var(--accent); color: #0a0e1a; }
+        .btn-primary:hover { background: #00e6b8; box-shadow: 0 4px 20px rgba(0, 212, 170, 0.4); transform: translateY(-1px); }
+        .btn-secondary { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--bg-card-hover); border-color: var(--border-accent); }
+        .btn-danger { background: rgba(255, 92, 114, 0.1); color: var(--danger); border: 1px solid rgba(255, 92, 114, 0.2); }
+        .btn-danger:hover { background: rgba(255, 92, 114, 0.2); }
+        .btn-cloud { background: rgba(167, 139, 250, 0.1); color: var(--cloud); border: 1px solid rgba(167, 139, 250, 0.2); }
+        .btn-cloud:hover { background: rgba(167, 139, 250, 0.2); }
+        .btn-sm { padding: 6px 14px; font-size: 12px; }
+
+        .stats-bar { display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+        .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 24px; flex: 1; min-width: 120px; }
+        .stat-card .stat-value { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
+        .stat-card .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+        .stat-card.online .stat-value { color: var(--accent); }
+        .stat-card.offline .stat-value { color: var(--danger); }
+        .stat-card.total .stat-value { color: var(--info); }
+        .stat-card.local .stat-value { color: var(--accent); }
+        .stat-card.cloud-stat .stat-value { color: var(--cloud); }
+
+        .nav-tabs { display: flex; gap: 4px; margin-bottom: 24px; background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 4px; width: fit-content; flex-wrap: wrap; }
+        .nav-tab { padding: 10px 22px; border: none; background: none; color: var(--text-secondary); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 8px; transition: all 0.2s; }
+        .nav-tab.active { background: var(--bg-card); color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .nav-tab:hover:not(.active) { color: var(--text-primary); }
+
+        .rooms-filter { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .room-chip { padding: 8px 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; color: var(--text-secondary); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+        .room-chip.active { background: var(--accent-glow); border-color: var(--border-accent); color: var(--accent); }
+
+        .device-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .device-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: all 0.3s; position: relative; overflow: hidden; }
+        .device-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, transparent); transition: all 0.3s; }
+        .device-card.online::before { background: linear-gradient(90deg, var(--accent), #00b894); }
+        .device-card.cloud-online::before { background: linear-gradient(90deg, var(--cloud), #8b5cf6); }
+        .device-card:hover { border-color: var(--border-accent); transform: translateY(-2px); box-shadow: var(--shadow); }
+
+        .device-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .device-info { display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }
+        .device-icon { width: 44px; height: 44px; min-width: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; background: rgba(0, 212, 170, 0.1); }
+        .device-card.offline .device-icon { background: rgba(255, 255, 255, 0.04); }
+        .device-name { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .device-room { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+        .device-badges { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
+        .badge { padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge-online { background: rgba(0, 212, 170, 0.1); color: var(--accent); }
+        .badge-offline { background: rgba(255, 92, 114, 0.1); color: var(--danger); }
+        .badge-local { background: rgba(0, 212, 170, 0.1); color: var(--accent); }
+        .badge-cloud { background: rgba(167, 139, 250, 0.1); color: var(--cloud); }
+
+        .toggle-container { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-top: 1px solid var(--border); }
+        .toggle-label { font-size: 13px; color: var(--text-secondary); }
+        .toggle-switch { width: 52px; height: 28px; background: rgba(255,255,255,0.08); border-radius: 14px; position: relative; cursor: pointer; transition: all 0.3s; border: none; outline: none; }
+        .toggle-switch.on { background: var(--accent); box-shadow: 0 2px 12px rgba(0, 212, 170, 0.4); }
+        .toggle-switch::after { content: ''; position: absolute; width: 22px; height: 22px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .toggle-switch.on::after { transform: translateX(24px); }
+
+        .slider-container { padding: 10px 0; border-top: 1px solid var(--border); }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .slider-label { font-size: 13px; color: var(--text-secondary); }
+        .slider-value { font-size: 13px; font-weight: 600; color: var(--accent); }
+        input[type="range"] { width: 100%; -webkit-appearance: none; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; outline: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: var(--accent); border-radius: 50%; cursor: pointer; }
+
+        .device-actions { display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+        .device-actions .btn-sm { flex: 1; justify-content: center; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; width: 90%; max-width: 540px; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .modal h2 { font-size: 20px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--accent); }
+        .form-group small { display: block; margin-top: 4px; font-size: 11px; color: var(--text-muted); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+
+        .scene-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; margin-bottom: 10px; }
+        .scene-card:hover { border-color: var(--border-accent); }
+        .scene-info { display: flex; align-items: center; gap: 14px; }
+        .scene-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; background: rgba(92, 160, 255, 0.1); }
+        .scene-name { font-size: 15px; font-weight: 600; }
+        .scene-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+        .scene-actions { display: flex; gap: 8px; }
+
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+        .empty-state .empty-icon { font-size: 48px; margin-bottom: 16px; }
+        .empty-state h3 { font-size: 18px; color: var(--text-secondary); margin-bottom: 8px; }
+        .empty-state p { font-size: 14px; margin-bottom: 20px; }
+
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
+        .toast { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 20px; font-size: 13px; box-shadow: 0 8px 30px rgba(0,0,0,0.3); animation: slideIn 0.3s ease; display: flex; align-items: center; gap: 10px; }
+        .toast.success { border-left: 3px solid var(--accent); }
+        .toast.error { border-left: 3px solid var(--danger); }
+        .toast.info { border-left: 3px solid var(--info); }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .section-header h2 { font-size: 18px; font-weight: 700; }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        .cloud-config-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+        .cloud-config-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .cloud-status { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: var(--radius-sm); font-size: 13px; margin-bottom: 16px; }
+        .cloud-status.connected { background: rgba(0, 212, 170, 0.1); color: var(--accent); }
+        .cloud-status.disconnected { background: rgba(255, 92, 114, 0.1); color: var(--danger); }
+
+        .scan-result-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+
+        .spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            .app-container { padding: 12px; }
+            .header { flex-direction: column; }
+            .header-actions { width: 100%; }
+            .header-actions .btn { flex: 1; justify-content: center; }
+            .device-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .modal { padding: 24px; width: 95%; }
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left">
+                <div class="logo">🏠</div>
+                <div class="header-title">
+                    <h1>Tuya Smart Home <span style="color:var(--cloud);font-size:14px;">v2</span></h1>
+                    <p>Local + Cloud • Điều khiển tất cả thiết bị</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-cloud" onclick="refreshAllCloud()">☁️ Cập nhật Cloud</button>
+                <button class="btn btn-secondary" onclick="scanNetwork()">📡 Quét mạng</button>
+                <button class="btn btn-primary" onclick="showAddDeviceModal()">＋ Thêm thiết bị</button>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-card total"><div class="stat-value" id="stat-total">0</div><div class="stat-label">Tổng thiết bị</div></div>
+            <div class="stat-card online"><div class="stat-value" id="stat-online">0</div><div class="stat-label">Online</div></div>
+            <div class="stat-card local"><div class="stat-value" id="stat-local">0</div><div class="stat-label">🟢 Local</div></div>
+            <div class="stat-card cloud-stat"><div class="stat-value" id="stat-cloud">0</div><div class="stat-label">☁️ Cloud</div></div>
+            <div class="stat-card offline"><div class="stat-value" id="stat-offline">0</div><div class="stat-label">Offline</div></div>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('devices')">💡 Thiết bị</button>
+            <button class="nav-tab" onclick="switchTab('scenes')">🎬 Kịch bản</button>
+            <button class="nav-tab" onclick="switchTab('settings')">⚙️ Cài đặt</button>
+        </div>
+
+        <div id="rooms-filter" class="rooms-filter">
+            <button class="room-chip active" onclick="filterRoom('all')">Tất cả</button>
+        </div>
+
+        <!-- Devices Tab -->
+        <div id="tab-devices" class="tab-panel active">
+            <div id="device-grid" class="device-grid">
+                <div class="empty-state">
+                    <div class="empty-icon">💡</div>
+                    <h3>Chưa có thiết bị nào</h3>
+                    <p>Thêm thiết bị Tuya đầu tiên để bắt đầu</p>
+                    <button class="btn btn-primary" onclick="showAddDeviceModal()">＋ Thêm thiết bị</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenes Tab -->
+        <div id="tab-scenes" class="tab-panel">
+            <div class="section-header">
+                <h2>Kịch bản tự động</h2>
+                <button class="btn btn-primary btn-sm" onclick="showAddSceneModal()">＋ Tạo kịch bản</button>
+            </div>
+            <div id="scenes-list"></div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="tab-settings" class="tab-panel">
+            <div class="cloud-config-card">
+                <h3>☁️ Tuya Cloud API</h3>
+                <div id="cloud-status" class="cloud-status disconnected">⚪ Chưa cấu hình</div>
+                <div class="form-group">
+                    <label>Access ID / Client ID</label>
+                    <input type="text" id="cloud-api-id" placeholder="Lấy từ Tuya IoT Platform → Overview">
+                </div>
+                <div class="form-group">
+                    <label>Access Secret / Client Secret</label>
+                    <input type="password" id="cloud-api-secret" placeholder="Lấy từ Tuya IoT Platform → Overview">
+                </div>
+                <div class="form-group">
+                    <label>Data Center</label>
+                    <select id="cloud-region">
+                        <option value="us">Western America (US)</option>
+                        <option value="eu">Central Europe (EU)</option>
+                        <option value="in">India (IN)</option>
+                        <option value="cn">China (CN)</option>
+                        <option value="ue">Eastern America (UE)</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="saveCloudConfig()">💾 Lưu & Kết nối</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Device Modal -->
+    <div class="modal-overlay" id="modal-add-device">
+        <div class="modal">
+            <h2>＋ Thêm thiết bị mới</h2>
+            <form id="form-add-device" onsubmit="addDevice(event)">
+                <div class="form-group"><label>Tên thiết bị *</label><input type="text" id="dev-name" required></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Device ID *</label><input type="text" id="dev-id" required></div>
+                    <div class="form-group"><label>IP Address</label><input type="text" id="dev-ip" placeholder="Để trống nếu dùng Cloud"></div>
+                </div>
+                <div class="form-group"><label>Local Key</label><input type="text" id="dev-key" placeholder="Để trống nếu dùng Cloud"></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Loại</label><select id="dev-type"><option value="switch">🔌 Công tắc</option><option value="bulb">💡 Đèn</option><option value="cover">🪟 Rèm</option><option value="fan">🌀 Quạt</option><option value="sensor">📡 Cảm biến</option></select></div>
+                    <div class="form-group"><label>Version</label><select id="dev-version"><option value="3.3">3.3</option><option value="3.4">3.4</option><option value="3.5">3.5</option></select></div>
+                </div>
+                <div class="form-group"><label>Phòng</label><input type="text" id="dev-room" placeholder="VD: Phòng khách"></div>
+                <div class="form-group"><label>DPS Config (JSON)</label><textarea id="dev-dps" rows="3" placeholder='[{"dp": 1, "name": "Switch", "type": "bool"}]'></textarea></div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-add-device')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Scene Modal -->
+    <div class="modal-overlay" id="modal-add-scene">
+        <div class="modal">
+            <h2>🎬 Tạo kịch bản</h2>
+            <form id="form-add-scene" onsubmit="addScene(event)">
+                <div class="form-group"><label>Tên *</label><input type="text" id="scene-name" required></div>
+                <div class="form-group"><label>Mô tả</label><input type="text" id="scene-desc"></div>
+                <div class="form-group"><label>Icon</label><input type="text" id="scene-icon" value="🎬"></div>
+                <div class="form-group"><label>Hành động (JSON)</label><textarea id="scene-actions" rows="5" placeholder='[{"device_id":"xxx","dp":1,"value":true}]'></textarea></div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-add-scene')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Tạo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        let devices = [];
+        let scenes = [];
+        let currentRoom = 'all';
+
+        const socket = io();
+        socket.on('device_status', (data) => {
+            const dev = devices.find(d => d.id === data.device_id);
+            if (dev) { dev.status = data.status; updateDeviceCard(data.device_id); updateStats(); }
+        });
+
+        // API
+        async function fetchDevices() {
+            try {
+                const res = await fetch('/api/devices');
+                devices = await res.json();
+                renderDevices(); updateStats(); renderRoomsFilter();
+            } catch (e) { showToast('Lỗi tải thiết bị', 'error'); }
+        }
+
+        async function fetchScenes() {
+            try { const res = await fetch('/api/scenes'); scenes = await res.json(); renderScenes(); } catch (e) {}
+        }
+
+        async function fetchCloudConfig() {
+            try {
+                const res = await fetch('/api/cloud/config');
+                const config = await res.json();
+                if (config.api_id) {
+                    document.getElementById('cloud-api-id').value = config.api_id;
+                    document.getElementById('cloud-region').value = config.api_region || 'us';
+                    document.getElementById('cloud-status').className = 'cloud-status connected';
+                    document.getElementById('cloud-status').innerHTML = '🟢 Đã kết nối Cloud API';
+                }
+            } catch (e) {}
+        }
+
+        async function addDevice(e) {
+            e.preventDefault();
+            let dps;
+            try {
+                const t = document.getElementById('dev-dps').value.trim();
+                dps = t ? JSON.parse(t) : [{"dp":1,"name":"Switch","type":"bool"}];
+            } catch { showToast('DPS JSON lỗi', 'error'); return; }
+
+            const device = {
+                name: document.getElementById('dev-name').value,
+                id: document.getElementById('dev-id').value,
+                ip: document.getElementById('dev-ip').value,
+                local_key: document.getElementById('dev-key').value,
+                type: document.getElementById('dev-type').value,
+                version: document.getElementById('dev-version').value,
+                room: document.getElementById('dev-room').value || 'Mặc định',
+                dps_config: dps
+            };
+            try {
+                const res = await fetch('/api/devices', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(device) });
+                const data = await res.json();
+                if (data.success) { showToast(`Đã thêm "${device.name}"`, 'success'); closeModal('modal-add-device'); fetchDevices(); }
+                else showToast(data.error, 'error');
+            } catch (e) { showToast('Lỗi server', 'error'); }
+        }
+
+        async function deleteDevice(id) {
+            if (!confirm('Xóa thiết bị?')) return;
+            await fetch(`/api/devices/${id}`, {method:'DELETE'});
+            showToast('Đã xóa', 'success'); fetchDevices();
+        }
+
+        async function toggleDevice(id, dp, current) {
+            try {
+                const res = await fetch(`/api/devices/${id}/control`, {
+                    method: 'POST', headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify({dp, value: !current})
+                });
+                const data = await res.json();
+                if (!data.success) showToast(data.error || 'Lỗi', 'error');
+                else showToast(`${data.source === 'cloud' ? '☁️' : '🟢'} OK`, 'success');
+            } catch (e) { showToast('Lỗi kết nối', 'error'); }
+        }
+
+        async function setDeviceValue(id, dp, value) {
+            try {
+                await fetch(`/api/devices/${id}/control`, {
+                    method: 'POST', headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify({dp, value: parseInt(value)})
+                });
+            } catch (e) { showToast('Lỗi', 'error'); }
+        }
+
+        async function refreshDeviceStatus(id) {
+            try {
+                const res = await fetch(`/api/devices/${id}/status`);
+                const status = await res.json();
+                const dev = devices.find(d => d.id === id);
+                if (dev) { dev.status = status; updateDeviceCard(id); updateStats(); }
+                showToast(`${status.source === 'cloud' ? '☁️' : '🟢'} Đã cập nhật`, 'success');
+            } catch (e) { showToast('Lỗi', 'error'); }
+        }
+
+        async function refreshAllCloud() {
+            showToast('☁️ Đang cập nhật tất cả thiết bị...', 'info');
+            try {
+                const res = await fetch('/api/cloud/refresh-all', {method:'POST'});
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`☁️ Cập nhật ${data.updated}/${data.total} thiết bị`, 'success');
+                    fetchDevices();
+                } else showToast(data.error, 'error');
+            } catch (e) { showToast('Lỗi', 'error'); }
+        }
+
+        async function saveCloudConfig() {
+            const config = {
+                api_id: document.getElementById('cloud-api-id').value,
+                api_secret: document.getElementById('cloud-api-secret').value,
+                api_region: document.getElementById('cloud-region').value
+            };
+            try {
+                const res = await fetch('/api/cloud/config', {
+                    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(config)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('☁️ Cloud API đã kết nối!', 'success');
+                    document.getElementById('cloud-status').className = 'cloud-status connected';
+                    document.getElementById('cloud-status').innerHTML = '🟢 Đã kết nối Cloud API';
+                } else showToast(data.error, 'error');
+            } catch (e) { showToast('Lỗi', 'error'); }
+        }
+
+        async function scanNetwork() {
+            showToast('📡 Đang quét mạng...', 'info');
+            try {
+                const res = await fetch('/api/scan');
+                const data = await res.json();
+                showToast(`Tìm thấy ${data.length} thiết bị`, 'success');
+            } catch (e) { showToast('Lỗi quét', 'error'); }
+        }
+
+        async function addScene(e) {
+            e.preventDefault();
+            let actions;
+            try { actions = JSON.parse(document.getElementById('scene-actions').value); }
+            catch { showToast('JSON lỗi', 'error'); return; }
+            const scene = {
+                name: document.getElementById('scene-name').value,
+                description: document.getElementById('scene-desc').value,
+                icon: document.getElementById('scene-icon').value || '🎬',
+                actions
+            };
+            try {
+                const res = await fetch('/api/scenes', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(scene) });
+                if ((await res.json()).success) { showToast('Đã tạo kịch bản', 'success'); closeModal('modal-add-scene'); fetchScenes(); }
+            } catch (e) { showToast('Lỗi', 'error'); }
+        }
+
+        async function executeScene(i) {
+            const res = await fetch(`/api/scenes/${i}/execute`, {method:'POST'});
+            if ((await res.json()).success) { showToast('▶ Đã chạy kịch bản', 'success'); fetchDevices(); }
+        }
+
+        async function deleteScene(i) {
+            if (!confirm('Xóa kịch bản?')) return;
+            await fetch(`/api/scenes/${i}`, {method:'DELETE'});
+            fetchScenes();
+        }
+
+        // Render
+        const icons = { switch:'🔌', bulb:'💡', cover:'🪟', fan:'🌀', sensor:'📡' };
+
+        function renderDevices() {
+            const grid = document.getElementById('device-grid');
+            const filtered = currentRoom === 'all' ? devices : devices.filter(d => d.room === currentRoom);
+            if (!filtered.length) {
+                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">💡</div><h3>Không có thiết bị</h3><button class="btn btn-primary" onclick="showAddDeviceModal()">＋ Thêm</button></div>`;
+                return;
+            }
+            grid.innerHTML = filtered.map(d => buildCard(d)).join('');
+        }
+
+        function buildCard(dev) {
+            const st = dev.status || {online:false, dps:{}, source:'none'};
+            const on = st.online;
+            const dps = st.dps || {};
+            const src = st.source || 'none';
+            const icon = icons[dev.type] || '🔌';
+            const cfg = dev.dps_config || [{"dp":1,"name":"Switch","type":"bool"}];
+            const cardClass = on ? (src === 'cloud' ? 'cloud-online' : 'online') : 'offline';
+
+            let controls = '';
+            for (const c of cfg) {
+                const val = dps[String(c.dp)];
+                if (c.type === 'bool') {
+                    const isOn = val === true;
+                    controls += `<div class="toggle-container"><span class="toggle-label">${c.name}</span><button class="toggle-switch ${isOn?'on':''}" onclick="toggleDevice('${dev.id}',${c.dp},${isOn})" ${!on?'disabled':''}></button></div>`;
+                } else if (c.type === 'int') {
+                    const min=c.min||0, max=c.max||255, v=val||min;
+                    controls += `<div class="slider-container"><div class="slider-header"><span class="slider-label">${c.name}</span><span class="slider-value" id="val-${dev.id}-${c.dp}">${v}</span></div><input type="range" min="${min}" max="${max}" value="${v}" oninput="document.getElementById('val-${dev.id}-${c.dp}').textContent=this.value" onchange="setDeviceValue('${dev.id}',${c.dp},this.value)" ${!on?'disabled':''}></div>`;
+                }
+            }
+
+            const srcBadge = on ? (src === 'cloud' ? '<span class="badge badge-cloud">☁️ Cloud</span>' : '<span class="badge badge-local">🟢 Local</span>') : '';
+
+            return `<div class="device-card ${cardClass}" id="card-${dev.id}">
+                <div class="device-header">
+                    <div class="device-info"><div class="device-icon">${icon}</div><div><div class="device-name">${dev.name}</div><div class="device-room">${dev.room||'Mặc định'} • ${dev.ip||'No IP'}</div></div></div>
+                    <div class="device-badges"><span class="badge ${on?'badge-online':'badge-offline'}">${on?'Online':'Offline'}</span>${srcBadge}</div>
+                </div>
+                ${controls}
+                <div class="device-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="refreshDeviceStatus('${dev.id}')">🔄 Cập nhật</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteDevice('${dev.id}')">🗑 Xóa</button>
+                </div>
+            </div>`;
+        }
+
+        function updateDeviceCard(id) {
+            const dev = devices.find(d => d.id === id);
+            if (!dev) return;
+            const card = document.getElementById(`card-${id}`);
+            if (card) { const n = document.createElement('div'); n.innerHTML = buildCard(dev); card.replaceWith(n.firstElementChild); }
+        }
+
+        function renderScenes() {
+            const c = document.getElementById('scenes-list');
+            if (!scenes.length) { c.innerHTML = `<div class="empty-state"><div class="empty-icon">🎬</div><h3>Chưa có kịch bản</h3><button class="btn btn-primary" onclick="showAddSceneModal()">＋ Tạo</button></div>`; return; }
+            c.innerHTML = scenes.map((s,i) => `<div class="scene-card"><div class="scene-info"><div class="scene-icon">${s.icon||'🎬'}</div><div><div class="scene-name">${s.name}</div><div class="scene-desc">${s.description||`${s.actions?.length||0} hành động`}</div></div></div><div class="scene-actions"><button class="btn btn-primary btn-sm" onclick="executeScene(${i})">▶ Chạy</button><button class="btn btn-danger btn-sm" onclick="deleteScene(${i})">🗑</button></div></div>`).join('');
+        }
+
+        function renderRoomsFilter() {
+            const rooms = ['all', ...new Set(devices.map(d => d.room || 'Mặc định'))];
+            document.getElementById('rooms-filter').innerHTML = rooms.map(r => `<button class="room-chip ${currentRoom===r?'active':''}" onclick="filterRoom('${r}')">${r==='all'?'Tất cả':r}</button>`).join('');
+        }
+
+        function updateStats() {
+            const total = devices.length;
+            const onlineDevs = devices.filter(d => d.status?.online);
+            const localCount = onlineDevs.filter(d => d.status?.source === 'local').length;
+            const cloudCount = onlineDevs.filter(d => d.status?.source === 'cloud').length;
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-online').textContent = onlineDevs.length;
+            document.getElementById('stat-local').textContent = localCount;
+            document.getElementById('stat-cloud').textContent = cloudCount;
+            document.getElementById('stat-offline').textContent = total - onlineDevs.length;
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
+            const map = {devices:0, scenes:1, settings:2};
+            document.querySelectorAll('.nav-tab')[map[tab]]?.classList.add('active');
+            document.getElementById(`tab-${tab}`)?.classList.add('active');
+            document.getElementById('rooms-filter').style.display = tab === 'devices' ? 'flex' : 'none';
+        }
+
+        function filterRoom(r) { currentRoom = r; renderDevices(); renderRoomsFilter(); }
+        function showAddDeviceModal() { document.getElementById('modal-add-device').classList.add('active'); }
+        function showAddSceneModal() { document.getElementById('modal-add-scene').classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function showToast(msg, type='info') {
+            const c = document.getElementById('toast-container');
+            const icons = {success:'✅',error:'❌',info:'ℹ️'};
+            const t = document.createElement('div');
+            t.className = `toast ${type}`;
+            t.innerHTML = `<span>${icons[type]||'ℹ️'}</span> ${msg}`;
+            c.appendChild(t);
+            setTimeout(() => t.remove(), 4000);
+        }
+
+        document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) o.classList.remove('active'); }));
+
+        fetchDevices();
+        fetchScenes();
+        fetchCloudConfig();
+    </script>
+</body>
+</html>
