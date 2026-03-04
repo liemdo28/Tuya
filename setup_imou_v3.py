@@ -8,8 +8,8 @@ import json
 from pathlib import Path
 
 import aiohttp
-from imouapi.api import ImouAPIClient
-from imouapi.device import ImouDiscoverService, ImouDevice
+from imouapi.api import ImouAPIClient  # type: ignore[import-untyped]192
+from imouapi.device import ImouDiscoverService, ImouDevice  # type: ignore[import-untyped]
 
 IMOU_CONFIG_FILE = Path(__file__).parent / "imou_config.json"
 
@@ -19,8 +19,8 @@ async def main():
     print("=" * 60)
     print()
 
-    app_id = input("  App ID [lca938b20270374441]: ").strip() or "lca938b20270374441"
-    app_secret = input("  App Secret [0d7e5b3c...]: ").strip() or "0d7e5b3c216d4d2383e088bc65f2a4"
+    app_id = input("  App ID [lcb51d1f091d174f99]: ").strip() or "lcb51d1f091d174f99"
+    app_secret = input("  App Secret [74a04a5aa148474ab7661829aaae23]: ").strip() or "74a04a5aa148474ab7661829aaae23"
 
     print()
     print("  🔌 Đang kết nối Imou API...")
@@ -82,7 +82,7 @@ async def main():
                         print(f"     Sensors: {', '.join(sensor_names)}")
                     if switch_names:
                         print(f"     Switches: {', '.join(switch_names)}")
-                except:
+                except Exception:
                     pass
 
                 cameras.append({
